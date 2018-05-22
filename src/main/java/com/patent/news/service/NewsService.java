@@ -24,4 +24,8 @@ public class NewsService {
     public void save(News news) {
         newsRepository.save(news);
     }
+
+    public News findById(String id) {
+        return newsRepository.findById(id).get();
+    }
 }

@@ -5,7 +5,7 @@
 package com.patent.news.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.patent.news.dto.TokenDto;
+import com.patent.news.dto.TokenWxDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,18 +38,18 @@ public class WxService {
     private String secret;
 
     public String user() throws IOException {
-        TokenDto tokenDto = token();
+        TokenWxDto tokenDto = token();
         String uri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + tokenDto.getAccessToken() + "&next_openid=";
         HttpHeaders httpHeaders = new HttpHeaders();
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
         return exchange.getBody();
     }
 
-    public TokenDto token() throws IOException {
+    public TokenWxDto token() throws IOException {
         String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + secret;
         HttpHeaders httpHeaders = new HttpHeaders();
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
         String body = exchange.getBody();
-        return objectMapper.readValue(body, TokenDto.class);
+        return objectMapper.readValue(body, TokenWxDto.class);
     }
 }

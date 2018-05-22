@@ -12,7 +12,7 @@ import lombok.Data;
  * Time: 11:07 PM
  */
 @Data
-public class TokenDto {
+public class TokenWxDto {
 
     private String accessToken;
     private int expiresIn;

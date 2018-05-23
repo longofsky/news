@@ -5,6 +5,7 @@
 package com.patent.news.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.patent.news.dto.PatentSearchDto;
 import com.patent.news.dto.TokenPatentDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.stream.Collectors;
 
 /**
  * Author: Tory
@@ -56,18 +58,32 @@ public class PatentService {
         return objectMapper.readValue(body, TokenPatentDto.class);
     }
 
-    public String classification() throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/classification?type=ipc&code=A01,A02";
+    private HttpHeaders getHttpHeaders() throws IOException {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.set("X-PatSnap-Version", "1.0.0");
         httpHeaders.set("Authorization", "Bearer " + token().getAccessToken());
-        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
+        return httpHeaders;
+    }
+
+    public String classification() throws IOException {
+        String uri = "https://api.zhihuiya.com/patent/classification?type=ipc&code=A01,A02";
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
         return exchange.getBody();
     }
 
-    public void search() {
-        String uri = "https://api.zhihuiya.com/patent";
+    public PatentSearchDto search(String ttl) throws IOException {
+        String uri = "https://api.zhihuiya.com/patent/simple/search?ttl=" + ttl;
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
+        return objectMapper.readValue(exchange.getBody(), PatentSearchDto.class);
+    }
+
+    public String patent(String ttl) throws IOException {
+        PatentSearchDto search = search(ttl);
+        String patentId = search.getPatent().stream().collect(Collectors.joining(","));
+        String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId;
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
+        return exchange.getBody();
     }
 
 }

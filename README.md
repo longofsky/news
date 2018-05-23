@@ -1,5 +1,5 @@
 # news
-A Recommended system
+A recommend system
 
 ```
 mysql -uroot -proot

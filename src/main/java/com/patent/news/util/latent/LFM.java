@@ -1,4 +1,4 @@
-package com.patent.news.util;
+package com.patent.news.util.latent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class LFM {
     public static double alpha = 0.03;
     public static double lambda = 0.01;
     public static final int iteration = 1;
-    public static final int resys = 10;
+    public static final int resys = 3;
 
     public static Map<Integer, List<Float>> UserMap = new HashMap<Integer, List<Float>>();
     public static Map<Integer, List<Float>> ItemMap = new HashMap<Integer, List<Float>>();

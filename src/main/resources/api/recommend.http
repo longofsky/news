@@ -1,0 +1,18 @@
+###基于用户协同过滤
+GET /recommend/userbase?openid=123 HTTP/1.1
+Host: {{host}}
+
+###基于物品协同过滤
+GET /recommend/itembase?openid=123&patentId=456 HTTP/1.1
+Host: {{host}}
+
+###训练隐语义
+GET /recommend/training HTTP/1.1
+Host: {{host}}
+
+###LFM
+GET /recommend/latent?openid=123 HTTP/1.1
+Host: {{host}}
+
+###
+

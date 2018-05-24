@@ -6,6 +6,7 @@ package com.patent.news.service;
 
 import com.patent.news.entity.Patent;
 import com.patent.news.entity.User;
+import com.patent.news.util.Constant;
 import com.patent.news.util.FileIO;
 
 import org.springframework.stereotype.Service;
@@ -35,8 +36,6 @@ public class RatingService extends BaseService {
             patent.setPatentId(patentId);
             patentRepository.save(patent);
         }
-        String path = System.getProperty("user.dir") + "/data/rating.log";
-        System.out.println(path);
-        FileIO.FileWrite(path, user.getUserId() + "::" + patent.getItemId() + "::1::" + new Date().getTime()+"\n", true);
+        FileIO.FileWrite(Constant.path, user.getUserId() + "::" + patent.getItemId() + "::1::" + new Date().getTime()+"\n", true);
     }
 }

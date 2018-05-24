@@ -2,3 +2,4 @@
 news.iml
 target/
 application-*.properties
+data/

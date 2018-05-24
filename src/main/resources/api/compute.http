@@ -33,3 +33,18 @@ X-PatSnap-Version: v1
   },
   "session": "string"
 }
+
+###
+POST /compute/acronym_ext_cn/ HTTP/1.1
+Host: 192.168.44.130:8000
+Content-Type: application/json
+X-PatSnap-Version: v1
+
+{
+  "data": {
+    "text": "本发明公开了一种低分子量分布聚乙烯吡咯烷酮的制备方法，该方法是以偶氮二异丁腈(AIBN)或过氧化苯甲酰(BPO)为引发剂，FeCl3或CuCl2为催化剂，三苯基磷(PPh3)为有机配体，在恒温条件下通过单体N-乙烯基吡咯烷酮(NVP)本体中的反向原子转移自由基聚合(RATRP)，获得低分子量分布的聚乙烯吡咯烷酮(PVP)聚合物，单体转化率最高达到90％以上；本发明克服了传统的原子转移自由基聚合(ATRP)使用有毒的有机大分子卤代物作为引发剂、低价金属盐易氧化、反应条件苛刻等不足，用常见自由基引发剂代替大分子卤代物，用稳定的高价态金属盐代替低价态金属盐，制备反应条件容易控制，实施过程简单。"
+  },
+  "session": "string"
+}
+
+###

@@ -2,15 +2,28 @@ GET /patent/token HTTP/1.1
 Host: {{host}}
 ###
 
-GET /patent/classification HTTP/1.1
+###返回id
+GET /patent/simple/search?ttl=phone HTTP/1.1
 Host: {{host}}
 
-###
-GET /patent/simple/search?ttl=5g HTTP/1.1
+###返回搜索结果详情
+GET /patent/search?ttl=5g HTTP/1.1
 Host: {{host}}
 
-###
-GET /patent?ttl=5g HTTP/1.1
+###专利详情
+GET /patent?patentId=29b203c9eaeff10a74d490c82890754a94256452a0c07f9c8c1abb26798436671085ca52e0b2de449891e11332dfc004 HTTP/1.1
+Host: {{host}}
+
+###专利引用个数详情
+GET /patent/citation/count?patentId=29b203c9eaeff10a74d490c82890754a94256452a0c07f9c8c1abb26798436671085ca52e0b2de449891e11332dfc004&citationType=CITES HTTP/1.1
+Host: {{host}}
+
+###专利价值详情 , 如果专利不存在会返回404
+GET /patent/valuation?patentId=a1737d9eb0f86be647b612bc4ea0ccdd6770f521ad9b9ce3e2f05c637fcc16514f5f4316d753e24df7122ff562ea86bc HTTP/1.1
+Host: {{host}}
+
+###专利分类号详情
+GET /patent/classification?type=ipc&code=A01,A02 HTTP/1.1
 Host: {{host}}
 
 ###

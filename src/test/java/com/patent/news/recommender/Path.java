@@ -4,8 +4,6 @@
 
 package com.patent.news.recommender;
 
-import lombok.Data;
-
 /**
  * Author: Tory
  * Date: 5/24/18

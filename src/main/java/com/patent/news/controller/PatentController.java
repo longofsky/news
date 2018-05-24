@@ -32,18 +32,34 @@ public class PatentController {
         return ResponseEntity.ok().body(patentService.token());
     }
 
-    @GetMapping("/classification")
-    public ResponseEntity<?> classification() throws IOException {
-        return ResponseEntity.ok().body(patentService.classification());
-    }
+
 
     @GetMapping("/simple/search")
     public ResponseEntity<?> search(@RequestParam String ttl) throws IOException {
         return ResponseEntity.ok().body(patentService.search(ttl));
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity<?> patent(@RequestParam String ttl) throws IOException {
         return ResponseEntity.ok().body(patentService.patent(ttl));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> detail(@RequestParam String patentId) throws IOException {
+        return ResponseEntity.ok().body(patentService.patentDetail(patentId));
+    }
+    @GetMapping("/citation/count")
+    public ResponseEntity<?> patentCitationCount(@RequestParam String patentId, @RequestParam String citationType) throws IOException {
+        return ResponseEntity.ok().body(patentService.patentCitationCount(patentId, citationType));
+    }
+
+    @GetMapping("/valuation")
+    public ResponseEntity<?> patentValuation(@RequestParam String patentId) throws IOException {
+        return ResponseEntity.ok().body(patentService.patentValuation(patentId));
+    }
+
+    @GetMapping("/classification")
+    public ResponseEntity<?> classification(@RequestParam String type, @RequestParam String code) throws IOException {
+        return ResponseEntity.ok().body(patentService.classification(type, code));
     }
 }

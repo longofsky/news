@@ -1,0 +1,11 @@
+###点击专利
+POST /rating HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+	"openid":"a",
+	"patent_id":"b"
+}
+
+###

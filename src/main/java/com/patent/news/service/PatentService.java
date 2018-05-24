@@ -66,8 +66,7 @@ public class PatentService {
         return httpHeaders;
     }
 
-    public String classification() throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/classification?type=ipc&code=A01,A02";
+    private String getResult(String uri) throws IOException {
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
         return exchange.getBody();
     }
@@ -82,8 +81,27 @@ public class PatentService {
         PatentSearchDto search = search(ttl);
         String patentId = search.getPatent().stream().collect(Collectors.joining(","));
         String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId;
-        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
-        return exchange.getBody();
+        return getResult(uri);
+    }
+
+    public String patentDetail(String patentId) throws IOException {
+        String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId;
+        return getResult(uri);
+    }
+
+    public String patentCitationCount(String patentId, String citationType) throws IOException {
+        String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId + "&citation_type=" + citationType;
+        return getResult(uri);
+    }
+
+    public String patentValuation(String patentId) throws IOException {
+        String uri = "https://api.zhihuiya.com/patent/valuation?patent_id=" + patentId;
+        return getResult(uri);
+    }
+
+    public String classification(String type, String code) throws IOException {
+        String uri = "https://api.zhihuiya.com/patent/classification?type=" + type + "&code=" + code;
+        return getResult(uri);
     }
 
 }

@@ -1,5 +1,5 @@
 POST /news HTTP/1.1
-Host: 127.0.0.1:8888
+Host: {{host}}
 Content-Type: application/json
 
 {
@@ -10,6 +10,6 @@ Content-Type: application/json
 ###
 
 GET /news/3bd40fc0827b4f66ad28960065a12e46 HTTP/1.1
-Host: 127.0.0.1:8888
+Host: {{host}}
 
 ###

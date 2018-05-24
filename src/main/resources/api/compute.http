@@ -1,0 +1,35 @@
+###用于将中文公司名分解成其前缀与后缀，以此找到公司专有名称（corename）和行业分类的分界
+POST /compute/cname_parser_cn/ HTTP/1.1
+Host: qa-compute.zhihuiya.com
+Content-Type: application/json
+X-PatSnap-Version: v1
+
+{
+  "data": "温州康荣服饰有限公司",
+  "session": "string"
+}
+
+###中文新闻文章的实体识别API, PPL -- 人名, ORG -- 包括公司，学术机构，政府机构及其他组织, LOC -- 地理位置
+POST /compute/ner_news_cn/ HTTP/1.1
+Host: qa-compute.zhihuiya.com
+Content-Type: application/json
+X-PatSnap-Version: v1
+
+{
+  "data": "我是杨德城.",
+  "session": "string"
+}
+
+###提供了对用户搜索的word或者phrase找出和它们相似的word或者phras
+POST /compute/kwd_helper_cn/ HTTP/1.1
+Host: qa-compute.zhihuiya.com
+Content-Type: application/json
+X-PatSnap-Version: v1
+
+{
+  "data": {
+    "words": " 图片, 处理 ",
+    "topn": 10
+  },
+  "session": "string"
+}

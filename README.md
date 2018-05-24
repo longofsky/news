@@ -27,5 +27,6 @@ CREATE DATABASE news DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 - [常用推荐系统算法总结](http://www.cnblogs.com/hdk1993/p/5114368.html)
 - [协同过滤算法（UserCF + ItemCF）](https://www.jianshu.com/p/bf687ffc540d)
 - [Mahout介绍和简单应用](https://www.cnblogs.com/ahu-lichang/p/7073836.html) 用于该项目
+- [准确率(Accuracy), 精确率(Precision), 召回率(Recall)和F1-Measure](https://blog.argcv.com/articles/1036.c)
 - https://github.com/ToryZhou/RecommendSystem 用于该项目
 - https://github.com/xingzhexiaozhu/MovieRecommendation

@@ -1,16 +1,16 @@
 GET /patent/token HTTP/1.1
-Host: 127.0.0.1:8888
+Host: {{host}}
 ###
 
 GET /patent/classification HTTP/1.1
-Host: 127.0.0.1:8888
+Host: {{host}}
 
 ###
 GET /patent/simple/search?ttl=5g HTTP/1.1
-Host: 127.0.0.1:8888
+Host: {{host}}
 
 ###
 GET /patent?ttl=5g HTTP/1.1
-Host: 127.0.0.1:8888
+Host: {{host}}
 
 ###

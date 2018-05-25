@@ -1,9 +1,9 @@
 ### 获取关注者列表
-GET /wx/user HTTP/1.1
+GET /wxserver/user HTTP/1.1
 Host: {{host}}
 
 ###初始化微信 user数据
-POST /wx/init HTTP/1.1
+POST /wxserver/init HTTP/1.1
 Host: {{host}}
 
 ###

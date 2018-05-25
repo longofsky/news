@@ -4,6 +4,7 @@
 
 package com.patent.news.controller;
 
+import com.patent.news.service.PatentService;
 import com.patent.news.service.WxService;
 import com.patent.news.util.EncodeUtil;
 import com.patent.news.util.InputMessage;
@@ -44,6 +45,9 @@ public class WxController extends BaseController {
     String token;
     @Autowired
     private WxService wxService;
+
+    @Autowired
+    private PatentService patentService;
 
     @GetMapping("/user")
     public ResponseEntity<?> user() throws IOException {
@@ -122,6 +126,8 @@ public class WxController extends BaseController {
         long createTime = inputMsg.getCreateTime();// 接收时间
         Long returnTime = Calendar.getInstance().getTimeInMillis() / 1000;// 返回时间
 
+
+
         // 取得消息类型
         String msgType = inputMsg.getMsgType();
         // 根据消息类型获取对应的消息内容
@@ -133,14 +139,18 @@ public class WxController extends BaseController {
             System.out.println("消息内容：" + inputMsg.getContent());
             System.out.println("消息Id：" + inputMsg.getMsgId());
 
+            String search = patentService.searchTitle(inputMsg.getContent());
+
             StringBuffer str = new StringBuffer();
             str.append("<xml>");
             str.append("<ToUserName><![CDATA[" + custermname + "]]></ToUserName>");
             str.append("<FromUserName><![CDATA[" + servername + "]]></FromUserName>");
             str.append("<CreateTime>" + returnTime + "</CreateTime>");
             str.append("<MsgType><![CDATA[" + msgType + "]]></MsgType>");
-            str.append("<Content><![CDATA[你说的是：" + inputMsg.getContent() + "，吗？]]></Content>");
+//            str.append("<Content><![CDATA[你说的是：" + inputMsg.getContent() + "，吗？]]></Content>");
+            str.append("<Content><![CDATA[" + search + "]]></Content>");
             str.append("</xml>");
+
             System.out.println(str.toString());
             response.setContentType("text/html; charset=utf-8");
             response.getWriter().write(str.toString());

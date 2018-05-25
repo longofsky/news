@@ -4,10 +4,13 @@
 
 package com.patent.news.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.patent.news.dto.PatentSearchDetailDto;
 import com.patent.news.dto.PatentSearchDto;
 import com.patent.news.dto.TokenPatentDto;
 import com.patent.news.entity.Patent;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -37,6 +42,9 @@ import java.util.stream.Collectors;
 public class PatentService extends BaseService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PatentService.class);
+
+    private static final TypeReference<List<PatentSearchDetailDto>> TYPE_REFERENCE = new TypeReference<List<PatentSearchDetailDto>>() {
+    };
 
     @Value("${configs.com.patent.news.client.id}")
     private String clientId;
@@ -135,6 +143,48 @@ public class PatentService extends BaseService {
         String patentId = search.getPatent().stream().collect(Collectors.joining(","));
         String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId;
         return getResult(uri);
+    }
+
+    public String searchTitle(String ttl) throws IOException {
+        String search = search(ttl);
+        List<PatentSearchDetailDto> list = objectMapper.readValue(search, TYPE_REFERENCE);
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < 2; i++) {
+            str.append("专利号：").append(list.get(i).getPatentNumber()).append("\n");
+            List<Map<String, String>> title = list.get(i).getTitle();
+            String titleStr = null;
+            for (Map<String, String> map : title) {
+                String cn = map.get("lang");
+                if (StringUtils.equalsIgnoreCase(cn, "CN")) {
+                    titleStr = map.get("text");
+                    break;
+                }
+            }
+            if(StringUtils.isBlank(titleStr)){
+                for (Map<String, String> map : title) {
+                    String en = map.get("lang");
+                    if (StringUtils.equalsIgnoreCase(en, "EN")) {
+                        titleStr = map.get("text");
+                        break;
+                    }
+                }
+            }
+
+            if(StringUtils.isBlank(titleStr)){
+                for (Map<String, String> map : title) {
+                    String lang = map.get("lang");
+                    if (StringUtils.equalsIgnoreCase(lang, "JP")) {
+                        titleStr = map.get("text");
+                        break;
+                    }
+                }
+            }
+            str.append("标题：").append(titleStr).append("\n");
+            str.append("-------------\n");
+        }
+
+        return str.toString();
+
     }
 
     public String patentDetail(String patentId) throws IOException {

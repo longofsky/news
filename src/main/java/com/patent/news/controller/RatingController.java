@@ -4,14 +4,13 @@
 
 package com.patent.news.controller;
 
-import com.patent.news.dto.RatingPostDto;
 import com.patent.news.service.RatingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,9 +25,9 @@ public class RatingController extends BaseController {
     @Autowired
     private RatingService ratingService;
 
-    @PostMapping
-    public ResponseEntity<?> rating(@RequestBody RatingPostDto ratingPostDto) {
-        ratingService.rating(ratingPostDto.getOpenid(), ratingPostDto.getPatentId());
+    @GetMapping
+    public ResponseEntity<?> rating(@RequestParam String openid, @RequestParam String patentId) {
+        ratingService.rating(openid, patentId);
         return ResponseEntity.ok().build();
     }
 }

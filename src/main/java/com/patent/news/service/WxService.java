@@ -93,8 +93,9 @@ public class WxService extends BaseService {
 
         String color = "#173177";
         TemplateMsgDataDto templateMsgDataDto = new TemplateMsgDataDto();
-        templateMsgDataDto.setFirst(FieldDtoFactory.getFieldDto(title, color));
-        templateMsgDataDto.setKeyword1(FieldDtoFactory.getFieldDto(content, color));
+        templateMsgDataDto.setFirst(FieldDtoFactory.getFieldDto("热点新闻", color));
+        templateMsgDataDto.setKeyword1(FieldDtoFactory.getFieldDto(title, color));
+        templateMsgDataDto.setKeyword2(FieldDtoFactory.getFieldDto(content, color));
         templateMsgDataDto.setRemark(FieldDtoFactory.getFieldDto("点击查看详情", color));
 
         msgDto.setData(templateMsgDataDto);

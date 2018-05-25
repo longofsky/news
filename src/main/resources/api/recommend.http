@@ -1,5 +1,5 @@
 ###基于用户协同过滤
-GET /recommend/userbase?openid=op_RswgYs5QX99bnqYNZtH0KJvrg HTTP/1.1
+GET /recommend/userbase?openid=op_RswgYs5QX99bnqYNZtH0KJvrg&howMany=1 HTTP/1.1
 Host: {{host}}
 
 ###基于物品协同过滤
@@ -11,7 +11,7 @@ GET /recommend/training HTTP/1.1
 Host: {{host}}
 
 ###LFM
-GET /recommend/latent?openid=123 HTTP/1.1
+GET /recommend/latent?openid=op_RswgYs5QX99bnqYNZtH0KJvrg HTTP/1.1
 Host: {{host}}
 
 ###

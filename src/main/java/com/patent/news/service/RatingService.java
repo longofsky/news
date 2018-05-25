@@ -43,6 +43,6 @@ public class RatingService extends BaseService {
             patent.setPatentId(patentId);
             patentRepository.save(patent);
         }
-        FileIO.FileWrite(Constant.path, user.getUserId() + "::" + patent.getItemId() + "::1::" + new Date().getTime() + "\n", true);
+        FileIO.FileWrite(Constant.path, user.getUserId() + "::" + patent.getItemId() + "::1::978300760\n", true);
     }
 }

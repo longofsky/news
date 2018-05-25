@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/wx")
-public class WxController {
+public class WxController extends BaseController{
 
     @Autowired
     private WxService wxService;

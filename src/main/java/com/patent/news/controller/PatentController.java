@@ -23,7 +23,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/patent")
-public class PatentController {
+public class PatentController extends BaseController {
 
     @Autowired
     private PatentService patentService;

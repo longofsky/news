@@ -24,7 +24,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/recommend")
-public class RecommendController {
+public class RecommendController extends BaseController{
 
     @Autowired
     private RecommendService recommendService;

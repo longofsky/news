@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/test")
-public class TestController {
+public class TestController extends BaseController{
 
     @GetMapping
     public String get() {

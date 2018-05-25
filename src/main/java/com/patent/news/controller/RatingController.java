@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/rating")
-public class RatingController {
+public class RatingController extends BaseController {
 
     @Autowired
     private RatingService ratingService;

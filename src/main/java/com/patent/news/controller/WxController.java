@@ -91,12 +91,12 @@ public class WxController extends BaseController {
             }
         }
         System.out.println("失败 认证");
-        return null;
+        return echostr;
     }
 
     @PostMapping("/wxserver")
-    public ResponseEntity<String> receiveMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        return ResponseEntity.ok(access(request, response));
+    public void receiveMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        acceptMessage(request, response);
     }
 
     private void acceptMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -142,6 +142,7 @@ public class WxController extends BaseController {
             str.append("<Content><![CDATA[你说的是：" + inputMsg.getContent() + "，吗？]]></Content>");
             str.append("</xml>");
             System.out.println(str.toString());
+            response.setContentType("text/html; charset=utf-8");
             response.getWriter().write(str.toString());
         }
     }

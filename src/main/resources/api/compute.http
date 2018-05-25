@@ -16,7 +16,7 @@ Content-Type: application/json
 X-PatSnap-Version: v1
 
 {
-  "data": "我是杨德城.",
+  "data": "腾讯娱乐讯（文/胡梦莹）5月24日，古天乐在上海出席某服饰品牌新店开幕式，最近网络上出现不少关于其肤色变白的报道，不少网友直呼“直接帅回20年”、“白回来就好”，采访中古天乐也对此做出了回应。",
   "session": "string"
 }
 

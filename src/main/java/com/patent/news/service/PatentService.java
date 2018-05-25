@@ -119,13 +119,13 @@ public class PatentService extends BaseService {
     }
 
     public PatentSearchDto simpleSearch(String ttl) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/simple/search?limit=100&ttl=" + ttl;
+        String uri = "https://api.zhihuiya.com/patent/simple/search?limit=10&ttl=" + ttl;
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
         return objectMapper.readValue(exchange.getBody(), PatentSearchDto.class);
     }
 
     public PatentSearchDto simpleSearchByAns(String ans) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/simple/search?limit=100&ans=" + ans;
+        String uri = "https://api.zhihuiya.com/patent/simple/search?limit=10&ans=" + ans;
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
         return objectMapper.readValue(exchange.getBody(), PatentSearchDto.class);
     }

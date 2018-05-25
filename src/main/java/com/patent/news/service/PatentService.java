@@ -198,7 +198,7 @@ public class PatentService extends BaseService {
     }
 
     public String patentCitationCount(String patentId, String citationType) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId + "&citation_type=" + citationType;
+        String uri = "https://api.zhihuiya.com/patent/citation/count?patent_id=" + patentId + "&citation_type=" + citationType;
         return getResult(uri);
     }
 

@@ -6,6 +6,7 @@ package com.patent.news.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.patent.news.dao.PatentRepository;
+import com.patent.news.dao.UserPatentRepository;
 import com.patent.news.dao.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class BaseService {
 
     @Autowired
     PatentRepository patentRepository;
+
+    @Autowired
+    UserPatentRepository userPatentRepository;
 
     @Autowired
     RestTemplate restTemplate;

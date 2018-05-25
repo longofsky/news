@@ -6,8 +6,10 @@ package com.patent.news.service;
 
 import com.patent.news.entity.Patent;
 import com.patent.news.entity.User;
+import com.patent.news.entity.UserPatent;
 import com.patent.news.util.Constant;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
@@ -56,8 +58,30 @@ public class RecommendService extends BaseService {
         UserSimilarity similarity = new PearsonCorrelationSimilarity(dataModel);
         UserNeighborhood userNeighborhood = new NearestNUserNeighborhood(100, similarity, dataModel);
         Recommender recommender = new GenericUserBasedRecommender(dataModel, userNeighborhood, similarity);
-        List<RecommendedItem> recommendedItemList = recommender.recommend(user.getUserId(), howMany);
-        return getPatentIds(recommendedItemList);
+        List<RecommendedItem> recommendedItemList = recommender.recommend(user.getUserId(), 100);
+        List<String> patentIds = getPatentIds(recommendedItemList);
+
+        List<UserPatent> byUserOpenid = userPatentRepository.findByUserOpenid(openid);
+        List<String> listResult = new ArrayList<>();
+        for (String patentId : patentIds) {
+            boolean contained = false;
+            for (UserPatent userPatent : byUserOpenid) {
+                if (StringUtils.equals(patentId, userPatent.getPatent().getPatentId())) {
+                    contained = true;
+                    break;
+                }
+            }
+            if (!contained) {
+                UserPatent userPatent = new UserPatent();
+                Patent patent = patentRepository.findByPatentId(patentId);
+                userPatent.setUser(user);
+                userPatent.setPatent(patent);
+                userPatentRepository.save(userPatent);
+                listResult.add(patentId);
+                break;
+            }
+        }
+        return listResult;
     }
 
     public List<String> recommendItemBase(String openid, String patentId, int howMany) throws IOException, TasteException {

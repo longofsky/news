@@ -18,6 +18,11 @@ CREATE DATABASE news DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 - LFM(latent factor model)隐语义模型,基于兴趣分类,对于某用户，先得到他的兴趣分类，再从分类中挑选他可能喜欢的物品;推荐解释ItemCF算法支持很好的推荐解释，它可以利用用户的历史行为解释推荐结果。但LFM无法提供这样的解释，它计算出的隐类虽然在语义上却是代表了一类兴趣和物品，却很难用自然语言描述并生成解释展示给用户。
 - Mahout,Apache Mahout,包含许多实现，包括聚类、分类、推荐过滤、频繁子项挖掘;
 
+新闻推荐流程：
+- 使用tf-idf获取新闻关键词，加上open-api的关键信息提取，如申请组织，申请人和位置信息获取相关专利，放在新闻后面
+- 微信中的用户搜索记录会被记录，然后通过全模式分词及open-api将关键词及其近义词记录在solr中
+- 新闻在记录入库时，通过之前获取的关键词及相关信息与用户搜索记录进行比对，将新闻推送给感兴趣的用户
+
 参考资料
 - [推荐引擎初探](https://www.ibm.com/developerworks/cn/web/1103_zhaoct_recommstudy1/index.html#icomments)
 - [开发者中心](dev.zhihuiya.com)

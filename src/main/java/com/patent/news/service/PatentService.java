@@ -146,7 +146,12 @@ public class PatentService extends BaseService {
     }
 
     public String searchTitle(String ttl) throws IOException {
-        String search = search(ttl);
+        String uri = keywordUrl + "/news/cut/" + ttl;
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
+
+        List keyWordList = objectMapper.readValue(exchange.getBody(), List.class);
+        String search = search((String) keyWordList.get(0));
+
         List<PatentSearchDetailDto> list = objectMapper.readValue(search, TYPE_REFERENCE);
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < 2; i++) {
@@ -160,7 +165,7 @@ public class PatentService extends BaseService {
                     break;
                 }
             }
-            if(StringUtils.isBlank(titleStr)){
+            if (StringUtils.isBlank(titleStr)) {
                 for (Map<String, String> map : title) {
                     String en = map.get("lang");
                     if (StringUtils.equalsIgnoreCase(en, "EN")) {
@@ -170,7 +175,7 @@ public class PatentService extends BaseService {
                 }
             }
 
-            if(StringUtils.isBlank(titleStr)){
+            if (StringUtils.isBlank(titleStr)) {
                 for (Map<String, String> map : title) {
                     String lang = map.get("lang");
                     if (StringUtils.equalsIgnoreCase(lang, "JP")) {

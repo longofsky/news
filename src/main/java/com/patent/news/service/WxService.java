@@ -24,7 +24,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import sun.jvm.hotspot.memory.HeapBlock;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,9 +55,6 @@ public class WxService extends BaseService {
 
     @Value("${configs.com.patent.news.wx.template.id}")
     private String templateId;
-
-    @Value("${configs.com.patent.news.user.keyword.url}")
-    private String keywordUrl;
 
     public String user() throws IOException {
         String uri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + tokenDto.getAccessToken() + "&next_openid=";

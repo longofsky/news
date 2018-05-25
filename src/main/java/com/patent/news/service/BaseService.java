@@ -9,6 +9,7 @@ import com.patent.news.dao.PatentRepository;
 import com.patent.news.dao.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -28,4 +29,7 @@ public class BaseService {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Value("${configs.com.patent.news.user.keyword.url}")
+    String keywordUrl;
 }

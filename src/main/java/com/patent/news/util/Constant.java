@@ -12,4 +12,6 @@ package com.patent.news.util;
 public class Constant {
 //    public static String path = System.getProperty("user.dir") + "/data/rating.log";
     public static String path = System.getProperty("user.dir") + "/data/ratings.dat";
+
+    public static String pyUrlCut = "http://192.168.14.234:8000/news/cut/";
 }

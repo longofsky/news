@@ -66,7 +66,7 @@ public class WxService extends BaseService {
     }
 
     @Autowired
-    @Scheduled(fixedDelay = 3600 * 1000L)
+    @Scheduled(fixedDelay = 1200 * 1000L)
     public void refreshToken() throws IOException {
         if (!needStart) {
             LOGGER.info("[accessToken no need start is {}]", needStart);
@@ -101,7 +101,12 @@ public class WxService extends BaseService {
 
         String data = objectMapper.writer().writeValueAsString(msgDto);
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(data, httpHeaders), String.class);
-
+        if (exchange.getBody().contains("invalid credential, access_token is invalid or not latest hint")) {
+            refreshToken();
+            String uri2 = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + tokenDto.getAccessToken();
+            ResponseEntity<String> exchange2 = restTemplate.exchange(uri2, HttpMethod.POST, new HttpEntity<>(data, httpHeaders), String.class);
+            LOGGER.info("[sendMessage retry is {}]", exchange2.getBody());
+        }
         LOGGER.info("[sendMessage is {}]", exchange.getBody());
     }
 

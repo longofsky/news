@@ -27,3 +27,7 @@ GET /news/open_id/op_Rswgju460ziB1OXloJzP82HVk/query/测试存储
 Host: {{host}}
 
 ###
+GET /news/cut/中国游戏
+Host: {{host}}
+
+###

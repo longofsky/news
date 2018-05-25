@@ -27,11 +27,6 @@ public class WxController extends BaseController{
     @Autowired
     private WxService wxService;
 
-    @GetMapping("/token")
-    public ResponseEntity<?> token() throws IOException {
-        return ResponseEntity.ok().body(wxService.token());
-    }
-
     @GetMapping("/user")
     public ResponseEntity<?> user() throws IOException {
         return ResponseEntity.ok().body(wxService.user());

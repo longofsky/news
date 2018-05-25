@@ -100,11 +100,11 @@ public class RecommendLatentService extends BaseService {
         long userId = user.getUserId();
         Map<Integer, Float> item1 = UserItemTrain.get((int)userId);
         Set<Integer> resysList = lfm.getResysList((int) userId, item1);
-        List<Long> ids = new ArrayList<>();
+        Set<Long> ids = new HashSet<>();
         resysList.forEach(item -> ids.add(Long.valueOf(item)));
 //        System.out.println(ids);
 //        return null;
-        Iterable<Patent> patentIterable = patentRepository.findAllById(ids);
+        Iterable<Patent> patentIterable = patentRepository.findByItemIdIn(ids);
         List<String> patentIdList = new ArrayList<>();
         patentIterable.forEach(item -> patentIdList.add(item.getPatentId()));
         return patentIdList;

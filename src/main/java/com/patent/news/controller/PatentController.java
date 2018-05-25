@@ -9,6 +9,7 @@ import com.patent.news.service.PatentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,21 +34,21 @@ public class PatentController {
     }
 
 
-
     @GetMapping("/simple/search")
     public ResponseEntity<?> search(@RequestParam String ttl) throws IOException {
-        return ResponseEntity.ok().body(patentService.search(ttl));
+        return ResponseEntity.ok().body(patentService.simpleSearch(ttl));
     }
 
     @GetMapping("/search")
     public ResponseEntity<?> patent(@RequestParam String ttl) throws IOException {
-        return ResponseEntity.ok().body(patentService.patent(ttl));
+        return ResponseEntity.ok().body(patentService.search(ttl));
     }
 
     @GetMapping("")
     public ResponseEntity<?> detail(@RequestParam String patentId) throws IOException {
         return ResponseEntity.ok().body(patentService.patentDetail(patentId));
     }
+
     @GetMapping("/citation/count")
     public ResponseEntity<?> patentCitationCount(@RequestParam String patentId, @RequestParam String citationType) throws IOException {
         return ResponseEntity.ok().body(patentService.patentCitationCount(patentId, citationType));
@@ -61,5 +62,11 @@ public class PatentController {
     @GetMapping("/classification")
     public ResponseEntity<?> classification(@RequestParam String type, @RequestParam String code) throws IOException {
         return ResponseEntity.ok().body(patentService.classification(type, code));
+    }
+
+    @PostMapping("/init")
+    public ResponseEntity<?> init() throws IOException {
+        patentService.initPatent();
+        return ResponseEntity.ok().build();
     }
 }

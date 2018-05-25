@@ -33,13 +33,13 @@ public class RecommendController {
     private RecommendLatentService recommendLatentService;
 
     @GetMapping("/userbase")
-    public ResponseEntity<?> recommendUserBase(@RequestParam String openid) throws IOException, TasteException {
-        return ResponseEntity.ok().body(recommendService.recommendUserBase(openid));
+    public ResponseEntity<?> recommendUserBase(@RequestParam String openid, @RequestParam(defaultValue = "3") Integer howMany) throws IOException, TasteException {
+        return ResponseEntity.ok().body(recommendService.recommendUserBase(openid, howMany));
     }
 
     @GetMapping("/itembase")
-    public ResponseEntity<?> recommendItemBase(@RequestParam String openid, @RequestParam String patentId) throws IOException, TasteException {
-        return ResponseEntity.ok().body(recommendService.recommendItemBase(openid, patentId));
+    public ResponseEntity<?> recommendItemBase(@RequestParam String openid, @RequestParam String patentId, @RequestParam(defaultValue = "3") Integer howMany) throws IOException, TasteException {
+        return ResponseEntity.ok().body(recommendService.recommendItemBase(openid, patentId, howMany));
     }
 
     @GetMapping("/training")

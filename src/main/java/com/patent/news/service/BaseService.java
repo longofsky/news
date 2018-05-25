@@ -4,10 +4,12 @@
 
 package com.patent.news.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.patent.news.dao.PatentRepository;
 import com.patent.news.dao.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Author: Tory
@@ -15,11 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Time: 9:05 PM
  */
 public class BaseService {
-
     @Autowired
-     UserRepository userRepository;
-
+    UserRepository userRepository;
 
     @Autowired
     PatentRepository patentRepository;
+
+    @Autowired
+    RestTemplate restTemplate;
+
+    @Autowired
+    ObjectMapper objectMapper;
 }

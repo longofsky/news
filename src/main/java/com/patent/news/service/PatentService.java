@@ -4,11 +4,12 @@
 
 package com.patent.news.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.patent.news.dto.PatentSearchDto;
 import com.patent.news.dto.TokenPatentDto;
+import com.patent.news.entity.Patent;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,10 +19,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -30,18 +34,61 @@ import java.util.stream.Collectors;
  * Time: 12:08 AM
  */
 @Service
-public class PatentService {
+public class PatentService extends BaseService {
 
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private ObjectMapper objectMapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatentService.class);
 
     @Value("${configs.com.patent.news.client.id}")
     private String clientId;
 
     @Value("${configs.com.patent.news.client.secret}")
     private String clientSecret;
+
+    public void initPatent() {
+        HashSet<String> patentIdSet = new HashSet<>();
+        String[] titles = {"phone", "游戏机", "PS4", "5g", "自动化", "电扇", "杯子", "医药", "电脑", "虚拟现实",
+                "区块链", "人工智能", "物联网", "大数据", "云计算", "汽车", "高铁", "自动驾驶", "边缘计算", "人脸识别",
+                "快递", "签字笔"};
+
+        String[] companies = {"索尼", "小米", "华为", "三星", "苹果", "娃哈哈", "中石油", "中国移动", "中国电信", "京东方",
+                "思科", "讯飞", "西门子", "海尔", "格力", "百度", "腾讯", "戴尔", "万达", "尚德药缘"};
+
+        Arrays.stream(titles).forEach(item -> {
+            try {
+                PatentSearchDto patentSearchDto = simpleSearch(item);
+                patentIdSet.addAll(patentSearchDto.getPatent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Arrays.stream(companies).forEach(item -> {
+            try {
+                PatentSearchDto patentSearchDto = simpleSearchByAns(item);
+                patentIdSet.addAll(patentSearchDto.getPatent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        int itemId = 0;
+
+        ArrayList<Patent> patents = new ArrayList<>();
+        for (String patentId : patentIdSet) {
+            Patent patent = patentRepository.findByPatentId(patentId);
+            if (Objects.isNull(patent)) {
+                itemId++;
+                patent = new Patent();
+                patent.setItemId(itemId);
+                patent.setPatentId(patentId);
+                patentRepository.save(patent);
+                patents.add(patent);
+            }
+        }
+
+        LOGGER.info("Added patent amount:" + patents.size());
+
+
+    }
 
     public TokenPatentDto token() throws IOException {
         String uri = "https://con.zhihuiya.com/connector/oauth/token";
@@ -71,14 +118,20 @@ public class PatentService {
         return exchange.getBody();
     }
 
-    public PatentSearchDto search(String ttl) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/simple/search?ttl=" + ttl;
+    public PatentSearchDto simpleSearch(String ttl) throws IOException {
+        String uri = "https://api.zhihuiya.com/patent/simple/search?limit=100&ttl=" + ttl;
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
         return objectMapper.readValue(exchange.getBody(), PatentSearchDto.class);
     }
 
-    public String patent(String ttl) throws IOException {
-        PatentSearchDto search = search(ttl);
+    public PatentSearchDto simpleSearchByAns(String ans) throws IOException {
+        String uri = "https://api.zhihuiya.com/patent/simple/search?limit=100&ans=" + ans;
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
+        return objectMapper.readValue(exchange.getBody(), PatentSearchDto.class);
+    }
+
+    public String search(String ttl) throws IOException {
+        PatentSearchDto search = simpleSearch(ttl);
         String patentId = search.getPatent().stream().collect(Collectors.joining(","));
         String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId;
         return getResult(uri);

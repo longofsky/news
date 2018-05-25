@@ -39,33 +39,34 @@ public class RecommendService extends BaseService {
 
     private List<String> getPatentIds(List<RecommendedItem> recommendedItemList) {
         Set<Long> collect = recommendedItemList.stream().map(RecommendedItem::getItemID).collect(Collectors.toSet());
-        Iterable<Patent> patentIterable = patentRepository.findAllById(collect);
+        Iterable<Patent> patentIterable = patentRepository.findByItemIdIn(collect);
         List<String> patentIdList = new ArrayList<>();
         patentIterable.forEach(item -> patentIdList.add(item.getPatentId()));
         return patentIdList;
     }
+
     private DataModel generateModel() throws IOException {
         File file = new File(Constant.path);
         return new GroupLensDataModel(file);
     }
 
-    public List<String> recommendUserBase(String openid) throws IOException, TasteException {
+    public List<String> recommendUserBase(String openid, int howMany) throws IOException, TasteException {
         User user = userRepository.findByOpenid(openid);
         DataModel dataModel = generateModel();
         UserSimilarity similarity = new PearsonCorrelationSimilarity(dataModel);
         UserNeighborhood userNeighborhood = new NearestNUserNeighborhood(100, similarity, dataModel);
         Recommender recommender = new GenericUserBasedRecommender(dataModel, userNeighborhood, similarity);
-        List<RecommendedItem> recommendedItemList = recommender.recommend(user.getUserId(), 3);
+        List<RecommendedItem> recommendedItemList = recommender.recommend(user.getUserId(), howMany);
         return getPatentIds(recommendedItemList);
     }
 
-    public List<String> recommendItemBase(String openid, String patentId) throws IOException, TasteException {
+    public List<String> recommendItemBase(String openid, String patentId, int howMany) throws IOException, TasteException {
         User user = userRepository.findByOpenid(openid);
         Patent patent = patentRepository.findByPatentId(patentId);
         DataModel dataModel = generateModel();
         ItemSimilarity itemSimilarity = new PearsonCorrelationSimilarity(dataModel);
         GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(dataModel, itemSimilarity);
-        List<RecommendedItem> recommendedItemList = recommender.recommendedBecause(user.getUserId(), patent.getItemId(), 3);
+        List<RecommendedItem> recommendedItemList = recommender.recommendedBecause(user.getUserId(), patent.getItemId(), howMany);
         return getPatentIds(recommendedItemList);
     }
 

@@ -4,19 +4,19 @@
 
 package com.patent.news.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.patent.news.dto.TokenWxDto;
+import com.patent.news.dto.WxResponseDto;
+import com.patent.news.entity.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Author: Tory
@@ -25,11 +25,7 @@ import java.io.IOException;
  */
 
 @Service
-public class WxService {
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private ObjectMapper objectMapper;
+public class WxService extends BaseService {
 
     @Value("${configs.com.patent.news.wx.appid}")
     private String appid;
@@ -51,5 +47,19 @@ public class WxService {
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
         String body = exchange.getBody();
         return objectMapper.readValue(body, TokenWxDto.class);
+    }
+
+    public void initUser() throws IOException {
+        String body = user();
+        WxResponseDto wxResponseDto = objectMapper.readValue(body, WxResponseDto.class);
+        List<String> openidList = wxResponseDto.getData().getOpenid();
+        int userId = 0;
+        for (String openid : openidList) {
+            userId++;
+            User user = new User();
+            user.setUserId(userId);
+            user.setOpenid(openid);
+            userRepository.save(user);
+        }
     }
 }

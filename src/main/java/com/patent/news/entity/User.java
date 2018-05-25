@@ -5,6 +5,7 @@
 package com.patent.news.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,12 +19,11 @@ import javax.persistence.Table;
  * Date: 5/24/18
  * Time: 8:37 PM
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "user")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class User extends BaseEntity {
     private long userId;
     private String openid;
 }

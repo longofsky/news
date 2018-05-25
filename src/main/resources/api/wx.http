@@ -6,4 +6,8 @@ Host: {{host}}
 GET /wx/user HTTP/1.1
 Host: {{host}}
 
+###初始化微信 user数据
+POST /wx/init HTTP/1.1
+Host: {{host}}
+
 ###

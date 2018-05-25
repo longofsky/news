@@ -13,3 +13,17 @@ GET /news/3bd40fc0827b4f66ad28960065a12e46 HTTP/1.1
 Host: {{host}}
 
 ###
+
+###
+GET /news/2 HTTP/1.1
+Host: {{host}}
+
+###
+GET /news?pageNum=2&pageSize=3 HTTP/1.1
+Host: {{host}}
+
+###
+GET /news/open_id/op_Rswgju460ziB1OXloJzP82HVk/query/测试存储
+Host: {{host}}
+
+###

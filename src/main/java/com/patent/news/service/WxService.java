@@ -24,6 +24,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import sun.jvm.hotspot.memory.HeapBlock;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -52,8 +54,11 @@ public class WxService extends BaseService {
     @Value("${configs.com.patent.news.wx.secret}")
     private String secret;
 
-    @Value("${configs.com.patent.news.wx.template-id}")
+    @Value("${configs.com.patent.news.wx.template.id}")
     private String templateId;
+
+    @Value("${configs.com.patent.news.user.keyword.url}")
+    private String keywordUrl;
 
     public String user() throws IOException {
         String uri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + tokenDto.getAccessToken() + "&next_openid=";
@@ -62,6 +67,7 @@ public class WxService extends BaseService {
         return exchange.getBody();
     }
 
+    @Autowired
     @Scheduled(fixedDelay = 3600 * 1000L)
     public void refreshToken() throws IOException {
         String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + secret;
@@ -73,12 +79,14 @@ public class WxService extends BaseService {
     }
 
     public void sendMessage(String userId, String url, String title, String content) throws IOException {
+        LOGGER.info("[sendMessage userid {},url {},title {},content {}]", userId, url, title, content);
         String uri = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + tokenDto.getAccessToken();
         HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Content-type","application/json; charset=utf-8");
         TemplateMsgDto msgDto = new TemplateMsgDto();
         msgDto.setTemplateId(templateId);
         msgDto.setTouser(userId);
-        msgDto.setUrl(url + "?openId=" + userId);
+        msgDto.setUrl(url + "?open_id=" + userId);
 
 
         String color = "#173177";
@@ -108,5 +116,13 @@ public class WxService extends BaseService {
             user.setOpenid(openid);
             userRepository.save(user);
         }
+    }
+
+    public void sendQueryWord(String userId, String keyword) {
+        String uri = keywordUrl + "/news/open_id/" + userId + "/query/" + keyword;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
+
+        LOGGER.info("[sendQueryWord is {}]", exchange.getBody());
     }
 }

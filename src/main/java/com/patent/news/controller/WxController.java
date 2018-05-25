@@ -4,6 +4,7 @@
 
 package com.patent.news.controller;
 
+import com.patent.news.dto.WxMessageDto;
 import com.patent.news.service.PatentService;
 import com.patent.news.service.WxService;
 import com.patent.news.util.EncodeUtil;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,6 +60,11 @@ public class WxController extends BaseController {
     public ResponseEntity<?> init() throws IOException {
         wxService.initUser();
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/send_message")
+    public void receiveMsg(@RequestBody WxMessageDto message) throws IOException {
+        wxService.sendMessage(message.getOpen_id(), message.getUrl(), message.getTitle(), message.getContent());
     }
 
     @GetMapping("/wxserver")
@@ -127,7 +134,6 @@ public class WxController extends BaseController {
         Long returnTime = Calendar.getInstance().getTimeInMillis() / 1000;// 返回时间
 
 
-
         // 取得消息类型
         String msgType = inputMsg.getMsgType();
         // 根据消息类型获取对应的消息内容
@@ -138,7 +144,7 @@ public class WxController extends BaseController {
             System.out.println("消息创建时间：" + inputMsg.getCreateTime() + new Date(createTime * 1000l));
             System.out.println("消息内容：" + inputMsg.getContent());
             System.out.println("消息Id：" + inputMsg.getMsgId());
-
+            wxService.sendQueryWord(custermname, inputMsg.getContent());
             String search = patentService.searchTitle(inputMsg.getContent());
 
             StringBuffer str = new StringBuffer();

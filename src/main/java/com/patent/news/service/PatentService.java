@@ -154,7 +154,7 @@ public class PatentService extends BaseService {
 
         List<PatentSearchDetailDto> list = objectMapper.readValue(search, TYPE_REFERENCE);
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2 && i < list.size(); i++) {
             str.append("专利号：").append(list.get(i).getPatentNumber()).append("\n");
             List<Map<String, String>> title = list.get(i).getTitle();
             String titleStr = null;

@@ -24,7 +24,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -56,6 +55,9 @@ public class WxService extends BaseService {
     @Value("${configs.com.patent.news.wx.template.id}")
     private String templateId;
 
+    @Value("${configs.com.patent.news.wx.need.start}")
+    private boolean needStart;
+
     public String user() throws IOException {
         String uri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + tokenDto.getAccessToken() + "&next_openid=";
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -66,6 +68,10 @@ public class WxService extends BaseService {
     @Autowired
     @Scheduled(fixedDelay = 3600 * 1000L)
     public void refreshToken() throws IOException {
+        if (!needStart) {
+            LOGGER.info("[accessToken no need start is {}]", needStart);
+            return;
+        }
         String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + secret;
         HttpHeaders httpHeaders = new HttpHeaders();
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
@@ -78,7 +84,7 @@ public class WxService extends BaseService {
         LOGGER.info("[sendMessage userid {},url {},title {},content {}]", userId, url, title, content);
         String uri = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + tokenDto.getAccessToken();
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Content-type","application/json; charset=utf-8");
+        httpHeaders.set("Content-type", "application/json; charset=utf-8");
         TemplateMsgDto msgDto = new TemplateMsgDto();
         msgDto.setTemplateId(templateId);
         msgDto.setTouser(userId);

@@ -58,7 +58,7 @@ public class RecommendService extends BaseService {
         UserSimilarity similarity = new PearsonCorrelationSimilarity(dataModel);
         UserNeighborhood userNeighborhood = new NearestNUserNeighborhood(100, similarity, dataModel);
         Recommender recommender = new GenericUserBasedRecommender(dataModel, userNeighborhood, similarity);
-        List<RecommendedItem> recommendedItemList = recommender.recommend(user.getUserId(), 100);
+        List<RecommendedItem> recommendedItemList = recommender.recommend(user.getUserId(), 500);
         List<String> patentIds = getPatentIds(recommendedItemList);
 
         List<UserPatent> byUserOpenid = userPatentRepository.findByUserOpenid(openid);

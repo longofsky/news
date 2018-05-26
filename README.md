@@ -43,3 +43,4 @@ CREATE DATABASE news DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 - [准确率(Accuracy), 精确率(Precision), 召回率(Recall)和F1-Measure](https://blog.argcv.com/articles/1036.c)
 - https://github.com/ToryZhou/RecommendSystem 用于该项目
 - https://github.com/xingzhexiaozhu/MovieRecommendation
+- https://grouplens.org/datasets/movielens/

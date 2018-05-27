@@ -6,7 +6,7 @@ Host: {{host}}
 DELETE /collection?openid=op_RswlKnMRslqCXnx10WVIIKXGg&patentId=f50927cc07c353ecd08fbb633e32ec9a063a646e4595186c0a9ffaa6430fc5b2612ac97b21e88325e75f830048b82bb9 HTTP/1.1
 Host: {{host}}
 
-###检查是否已收藏
+###检查是否已收藏,返回true表示已关注，返回false表示未关注
 GET /collection/collected?openid=op_RswlKnMRslqCXnx10WVIIKXGg&patentId=f50927cc07c353ecd08fbb633e32ec9a063a646e4595186c0a9ffaa6430fc5b2612ac97b21e88325e75f830048b82bb9 HTTP/1.1
 Host: {{host}}
 

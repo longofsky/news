@@ -8,7 +8,7 @@ import com.patent.news.entity.Patent;
 import com.patent.news.entity.User;
 import com.patent.news.entity.UserPatent;
 import com.patent.news.util.Constant;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
@@ -80,6 +80,10 @@ public class RecommendService extends BaseService {
                 listResult.add(patentId);
                 break;
             }
+        }
+        // 假如所有都已经推荐过，那么就一直取第一个了
+        if (CollectionUtils.isEmpty(listResult)) {
+            listResult.add(patentIds.get(0));
         }
         return listResult;
     }

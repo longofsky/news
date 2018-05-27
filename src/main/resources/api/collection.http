@@ -1,5 +1,5 @@
 ###收藏
-POST /collection?openid=op_RswlKnMRslqCXnx10WVIIKXGg&patentId=f50927cc07c353ecd08fbb633e32ec9a063a646e4595186c0a9ffaa6430fc5b2612ac97b21e88325e75f830048b82bb9 HTTP/1.1
+POST /collection?openid=op_RswlKnMRslqCXnx10WVIIKXGg&patentId=9a4c0fa1e6e6b476b971be478a0aac3abb091267489f7cddb5620a559bb64cb681d5a5e3a395e150c67878fa44264d96 HTTP/1.1
 Host: {{host}}
 
 ###取消收藏
@@ -8,6 +8,10 @@ Host: {{host}}
 
 ###检查是否已收藏
 GET /collection/collected?openid=op_RswlKnMRslqCXnx10WVIIKXGg&patentId=f50927cc07c353ecd08fbb633e32ec9a063a646e4595186c0a9ffaa6430fc5b2612ac97b21e88325e75f830048b82bb9 HTTP/1.1
+Host: {{host}}
+
+### 获取关注专利id列表,返回的是逗号隔开的String
+GET /collection/op_RswlKnMRslqCXnx10WVIIKXGg HTTP/1.1
 Host: {{host}}
 
 ###

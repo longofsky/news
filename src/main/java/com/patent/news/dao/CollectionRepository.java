@@ -12,5 +12,6 @@ import java.util.List;
 public interface CollectionRepository extends BaseRespository<Collection, String> {
 
     List<Collection> findByUserOpenidAndPatentPatentId(String openid, String patentId);
+    List<Collection> findByUserOpenid(String openid);
 
 }

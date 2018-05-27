@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,4 +44,11 @@ public class CollectionController extends BaseController {
     public ResponseEntity<?> collected(@RequestParam String openid, @RequestParam String patentId) {
         return ResponseEntity.ok().body(collectionService.isCollected(openid, patentId));
     }
+
+    @GetMapping("/{openid}")
+    public ResponseEntity<?> collection(@PathVariable String openid) {
+        return ResponseEntity.ok().body(collectionService.collection(openid));
+    }
+
+
 }

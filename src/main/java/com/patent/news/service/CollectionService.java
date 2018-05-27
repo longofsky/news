@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Author: Tory
@@ -46,4 +47,10 @@ public class CollectionService extends BaseService {
         List<Collection> collectionList = collectionRepository.findByUserOpenidAndPatentPatentId(openid, patentId);
         collectionList.forEach(item -> collectionRepository.delete(item));
     }
+
+    public String  collection(String openid){
+        List<Collection> collectionList = collectionRepository.findByUserOpenid(openid);
+        return collectionList.stream().map(item -> item.getPatent().getPatentId()).collect(Collectors.joining(","));
+    }
+
 }

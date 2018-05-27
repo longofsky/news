@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -214,6 +215,25 @@ public class PatentService extends BaseService {
     public String classification(String type, String code) throws IOException {
         String uri = "https://api.zhihuiya.com/patent/classification?type=" + type + "&code=" + code;
         return getResult(uri);
+    }
+
+    public Patent findAndSaveByPatentId(String patentId) {
+        Patent patent = patentRepository.findByPatentId(patentId);
+        if (Objects.isNull(patent)) {
+            Iterable<Patent> patentIterable = patentRepository.findAll(new Sort(Sort.Direction.DESC, "itemId"));
+            Patent next;
+            if (patentIterable.iterator().hasNext()) {
+                next = patentIterable.iterator().next();
+            } else {
+                next = new Patent();
+                next.setItemId(0);
+            }
+            patent = new Patent();
+            patent.setItemId(next.getItemId() + 1);
+            patent.setPatentId(patentId);
+            patentRepository.save(patent);
+        }
+        return patent;
     }
 
 }

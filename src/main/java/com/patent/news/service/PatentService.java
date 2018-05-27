@@ -152,6 +152,7 @@ public class PatentService extends BaseService {
         List keyWordList = objectMapper.readValue(exchange.getBody(), List.class);
         String search = search((String) keyWordList.get(0));
 
+
         List<PatentSearchDetailDto> list = objectMapper.readValue(search, TYPE_REFERENCE);
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < 2 && i < list.size(); i++) {
@@ -184,10 +185,13 @@ public class PatentService extends BaseService {
                     }
                 }
             }
-            str.append("标题：").append(titleStr).append("\n");
+            String detailUrl = frontendUrl + "/detail/" + list.get(i).getPatentId();
+            str.append("标题：").append("<a href='").append(detailUrl).append("'>").append(titleStr).append("</a>").append("\n");
             str.append("-------------\n");
         }
 
+        // todo 修要修改链接为 frontendUrl/{ttl} 格式
+        str.append("<a href='").append(frontendUrl).append("'>查看更多</a>");
         return str.toString();
 
     }

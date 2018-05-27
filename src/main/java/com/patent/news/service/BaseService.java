@@ -36,4 +36,7 @@ public class BaseService {
 
     @Value("${configs.com.patent.news.user.keyword.url}")
     String keywordUrl;
+
+    @Value("${configs.com.patent.news.frontend.url}")
+    String frontendUrl;
 }

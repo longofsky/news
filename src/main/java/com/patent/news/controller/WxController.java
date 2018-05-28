@@ -145,7 +145,7 @@ public class WxController extends BaseController {
             System.out.println("消息内容：" + inputMsg.getContent());
             System.out.println("消息Id：" + inputMsg.getMsgId());
             wxService.sendQueryWord(custermname, inputMsg.getContent());
-            String search = patentService.searchTitle(inputMsg.getContent());
+            String search = patentService.searchTitle(inputMsg.getContent(), inputMsg.getFromUserName());
 
             StringBuffer str = new StringBuffer();
             str.append("<xml>");

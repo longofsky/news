@@ -7,7 +7,7 @@ GET /patent/simple/search?ttl=phone HTTP/1.1
 Host: {{host}}
 
 ###返回搜索结果详情
-GET /patent/search?ttl=phone HTTP/1.1
+GET /patent/search?ttl=华为 HTTP/1.1
 Host: {{host}}
 
 ###专利详情

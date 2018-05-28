@@ -146,7 +146,7 @@ public class PatentService extends BaseService {
         return getResult(uri);
     }
 
-    public String searchTitle(String ttl) throws IOException {
+    public String searchTitle(String ttl, String openid) throws IOException {
         String uri = keywordUrl + "/news/cut/" + ttl;
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
 
@@ -186,15 +186,15 @@ public class PatentService extends BaseService {
                     }
                 }
             }
-            String detailUrl = frontendUrl + "/detail/" + list.get(i).getPatentId();
+            String detailUrl = frontendUrl + "/ip/" + list.get(i).getPatentId();
             str.append("标题：").append("<a href='").append(detailUrl).append("'>").append(titleStr).append("</a>").append("\n");
             str.append("-------------\n");
         }
 
-        // todo 修要修改链接为 frontendUrl/{ttl} 格式
-        str.append("<a href='").append(frontendUrl).append("'>查看更多</a>");
+        String moreUrl = frontendUrl + "/more?ttl=" + keyWordList.get(0) + "&openid=" + openid;
+        System.out.println("moreUrl:" + moreUrl);
+        str.append("<a href='").append(moreUrl).append("'>查看更多</a>");
         return str.toString();
-
     }
 
     public String patentDetail(String patentId) throws IOException {

@@ -8,6 +8,7 @@ import com.patent.news.entity.Patent;
 import com.patent.news.entity.User;
 import com.patent.news.entity.UserPatent;
 import com.patent.news.util.Constant;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.mahout.cf.taste.common.TasteException;
@@ -53,6 +54,9 @@ public class RecommendService extends BaseService {
     }
 
     public List<String> recommendUserBase(String openid, int howMany) throws IOException, TasteException {
+        if (StringUtils.isBlank(openid) || StringUtils.equals("null", openid)) {
+            openid = "op_RswuGG45flr7uxHl1EhtmQ0_o";
+        }
         User user = userRepository.findByOpenid(openid);
         DataModel dataModel = generateModel();
         UserSimilarity similarity = new PearsonCorrelationSimilarity(dataModel);

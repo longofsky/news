@@ -13,6 +13,7 @@ import com.patent.news.entity.Patent;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
@@ -41,6 +42,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PatentService extends BaseService {
+
+    @Autowired
+    private UserService userService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PatentService.class);
 
@@ -147,6 +151,10 @@ public class PatentService extends BaseService {
     }
 
     public String searchTitle(String ttl, String openid) throws IOException {
+
+        userService.findAndSaveByOpenId(openid);
+
+
         String uri = keywordUrl + "/news/cut/" + ttl;
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
 
@@ -186,7 +194,7 @@ public class PatentService extends BaseService {
                     }
                 }
             }
-            String detailUrl = frontendUrl + "/ip/" + list.get(i).getPatentId();
+            String detailUrl = frontendUrl + "/ip/" + list.get(i).getPatentId() + "?openid=" + openid;
             str.append("标题：").append("<a href='").append(detailUrl).append("'>").append(titleStr).append("</a>").append("\n");
             str.append("-------------\n");
         }

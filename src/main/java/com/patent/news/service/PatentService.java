@@ -132,13 +132,13 @@ public class PatentService extends BaseService {
     }
 
     public PatentSearchDto simpleSearch(String ttl) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/simple/search?limit=10&ttl=" + ttl;
+        String uri = openApiUrl + "/patent/simple/search?limit=10&ttl=" + ttl;
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
         return objectMapper.readValue(exchange.getBody(), PatentSearchDto.class);
     }
 
     public PatentSearchDto simpleSearchByAns(String ans) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/simple/search?limit=10&ans=" + ans;
+        String uri = openApiUrl + "/patent/simple/search?limit=10&ans=" + ans;
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(getHttpHeaders()), String.class);
         return objectMapper.readValue(exchange.getBody(), PatentSearchDto.class);
     }
@@ -146,7 +146,7 @@ public class PatentService extends BaseService {
     public String search(String ttl) throws IOException {
         PatentSearchDto search = simpleSearch(ttl);
         String patentId = search.getPatent().stream().collect(Collectors.joining(","));
-        String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId;
+        String uri = openApiUrl + "/patent?patent_id=" + patentId;
         return getResult(uri);
     }
 
@@ -164,7 +164,7 @@ public class PatentService extends BaseService {
 
         List<PatentSearchDetailDto> list = objectMapper.readValue(search, TYPE_REFERENCE);
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < 2 && i < list.size(); i++) {
+        for (int i = 0; i < 5 && i < list.size(); i++) {
             str.append("专利号：").append(list.get(i).getPatentNumber()).append("\n");
             List<Map<String, String>> title = list.get(i).getTitle();
             String titleStr = null;
@@ -200,28 +200,27 @@ public class PatentService extends BaseService {
         }
 
         String moreUrl = frontendUrl + "/more?ttl=" + keyWordList.get(0) + "&openid=" + openid;
-        System.out.println("moreUrl:" + moreUrl);
         str.append("<a href='").append(moreUrl).append("'>查看更多</a>");
         return str.toString();
     }
 
     public String patentDetail(String patentId) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent?patent_id=" + patentId;
+        String uri = openApiUrl + "/patent?patent_id=" + patentId;
         return getResult(uri);
     }
 
     public String patentCitationCount(String patentId, String citationType) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/citation/count?patent_id=" + patentId + "&citation_type=" + citationType;
+        String uri = openApiUrl + "/patent/citation/count?patent_id=" + patentId + "&citation_type=" + citationType;
         return getResult(uri);
     }
 
     public String patentValuation(String patentId) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/valuation?patent_id=" + patentId;
+        String uri = openApiUrl + "/patent/valuation?patent_id=" + patentId;
         return getResult(uri);
     }
 
     public String classification(String type, String code) throws IOException {
-        String uri = "https://api.zhihuiya.com/patent/classification?type=" + type + "&code=" + code;
+        String uri = openApiUrl + "/patent/classification?type=" + type + "&code=" + code;
         return getResult(uri);
     }
 

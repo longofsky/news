@@ -43,4 +43,8 @@ public class BaseService {
 
     @Value("${configs.com.patent.news.frontend.url}")
     String frontendUrl;
+
+
+    @Value("${configs.com.patent.news.open.api.url}")
+    String openApiUrl;
 }

@@ -75,3 +75,9 @@ CREATE DATABASE news DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 1. 简单搜索结果的标题增加链接到详情
 2. 简单搜索结果后面新增 查看更多 （查看更多列表页能先做静态，有时间可以实现动态）
 3. 专利详情增加 收藏和取消收藏 （收藏按钮有时间做就动态，没时间就静态;收藏列表页先做静态，有时间做动态）
+
+项目启动
+- java后台启动,打开程序,运行main函数
+- python启动, cd /home/toryzhou/PycharmProjects/news-py/recommend, docker-compose up -d
+- solr 启动, cd /home/toryzhou/Documents/bak_news, docker-compose up -d
+- frontend 启动, cd /home/toryzhou/WebstormProjects/news-frontend, node serve

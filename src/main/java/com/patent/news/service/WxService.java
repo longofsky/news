@@ -58,7 +58,7 @@ public class WxService extends BaseService {
     @Value("${configs.com.patent.news.wx.need.start}")
     private boolean needStart;
 
-    public String user() throws IOException {
+    public String user() {
         String uri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + tokenDto.getAccessToken() + "&next_openid=";
         HttpHeaders httpHeaders = new HttpHeaders();
         ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), String.class);
